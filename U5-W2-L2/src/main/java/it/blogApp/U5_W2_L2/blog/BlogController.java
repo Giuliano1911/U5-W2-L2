@@ -20,7 +20,7 @@ public class BlogController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Blog findById(Long id) {
+    public Blog findById(@PathVariable Long id) {
         return blogService.findById(id);
     }
 

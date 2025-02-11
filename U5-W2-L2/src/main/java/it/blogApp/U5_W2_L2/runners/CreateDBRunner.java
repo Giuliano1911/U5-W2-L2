@@ -2,6 +2,8 @@ package it.blogApp.U5_W2_L2.runners;
 
 import it.blogApp.U5_W2_L2.author.Author;
 import it.blogApp.U5_W2_L2.author.AuthorRepository;
+import it.blogApp.U5_W2_L2.blog.Blog;
+import it.blogApp.U5_W2_L2.blog.BlogRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +17,7 @@ import java.time.LocalDate;
 public class CreateDBRunner implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
+    private final BlogRepository blogRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -25,5 +28,13 @@ public class CreateDBRunner implements CommandLineRunner {
         author.setBirthDate(LocalDate.now().minusDays(12000));
 
         authorRepository.save(author);
+
+        Blog blog = new Blog();
+        blog.setTitle("Blog di Andrea");
+        blog.setContent("Blog di Andrea");
+        blog.setCategory("Ciao");
+        blog.setTime(10);
+
+        blogRepository.save(blog);
     }
 }
