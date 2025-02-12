@@ -27,14 +27,16 @@ public class CreateDBRunner implements CommandLineRunner {
         author.setEmail("KzD0M@example.com");
         author.setBirthDate(LocalDate.now().minusDays(12000));
 
-        authorRepository.save(author);
-
         Blog blog = new Blog();
         blog.setTitle("Blog di Andrea");
         blog.setContent("Blog di Andrea");
         blog.setCategory("Ciao");
         blog.setTime(10);
         blog.setAuthor(author);
+
+        author.getBlogList().add(blog);
+
+        authorRepository.save(author);
 
         blogRepository.save(blog);
     }

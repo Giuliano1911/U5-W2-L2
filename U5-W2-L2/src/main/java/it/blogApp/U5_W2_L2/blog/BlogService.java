@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +20,18 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final AuthorRepository authorRepository;
 
-    public Page<Blog> findAll(Pageable pageable) {
-        return blogRepository.findAll(pageable);
+    public BlogResponse blogResponseFromEntity(Blog blog) {
+        BlogResponse blogResponse = new BlogResponse();
+        BeanUtils.copyProperties(blog, blogResponse);
+        return blogResponse;
+    }
+
+    public List<BlogResponse> blogResponseListFromEntityList(List<Blog> blogs) {
+        return blogs.stream().map(this::blogResponseFromEntity).toList();
+    }
+
+    public Page<BlogResponse> findAll(Pageable pageable) {
+        return blogRepository.findAll(pageable).map(this::blogResponseFromEntity);
     }
 
     public Blog modify(Long id, BlogRequest blogRequest) {

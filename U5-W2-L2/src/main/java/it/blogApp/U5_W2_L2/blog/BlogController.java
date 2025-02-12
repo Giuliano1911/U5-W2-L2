@@ -18,7 +18,7 @@ public class BlogController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<Blog> findAll(@RequestParam int page, @RequestParam int recordPerPagina, @RequestParam String sortBy) {
+    public Page<BlogResponse> findAll(@RequestParam int page, @RequestParam int recordPerPagina, @RequestParam String sortBy) {
         Pageable pageable = PageRequest.of(page, recordPerPagina, Sort.by(sortBy));
         return blogService.findAll(pageable);
     }
