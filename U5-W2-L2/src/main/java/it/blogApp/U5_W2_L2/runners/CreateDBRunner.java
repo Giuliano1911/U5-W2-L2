@@ -34,6 +34,7 @@ public class CreateDBRunner implements CommandLineRunner {
         blog.setContent("Blog di Andrea");
         blog.setCategory("Ciao");
         blog.setTime(10);
+        blog.setAuthor(author);
 
         blogRepository.save(blog);
     }

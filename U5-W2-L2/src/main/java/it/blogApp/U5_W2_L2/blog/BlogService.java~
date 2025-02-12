@@ -34,8 +34,6 @@ public class BlogService {
     public CreateResponse save(BlogRequest blogRequest) {
         Blog blog = new Blog();
         BeanUtils.copyProperties(blogRequest, blog);
-        Author author = authorRepository.findById(blogRequest.getAuthorId()).get();
-        blog.setAuthor(author);
         blogRepository.save(blog);
 
         CreateResponse response = new CreateResponse();

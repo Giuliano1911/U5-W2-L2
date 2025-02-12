@@ -1,10 +1,14 @@
 package it.blogApp.U5_W2_L2.blog;
 
+import it.blogApp.U5_W2_L2.response.CreateResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/blogs")
@@ -14,19 +18,20 @@ public class BlogController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Blog> findAll() {
-        return blogService.findAll();
+    public Page<Blog> findAll(@RequestParam int page, @RequestParam int recordPerPagina, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(page, recordPerPagina, Sort.by(sortBy));
+        return blogService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Blog findById(@PathVariable Long id) {
-        return blogService.findById(id);
+    public BlogDetailResponse findById(@PathVariable Long id) {
+        return blogService.findBlogResponseFromId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Blog save(@RequestBody BlogRequest blogRequest) {
+    public CreateResponse save(@RequestBody BlogRequest blogRequest) {
         return blogService.save(blogRequest);
     }
 

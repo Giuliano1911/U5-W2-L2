@@ -15,14 +15,14 @@ public class AuthorController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Author> findAll() {
+    public List<AuthorResponse> findAll() {
         return authorService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Author findById(@PathVariable Long id) {
-        return authorService.findById(id);
+    public AuthorDetailResponse findById(@PathVariable Long id) {
+        return authorService.findAuthorResponseFromId(id);
     }
 
     @PostMapping
