@@ -1,18 +1,24 @@
 package it.blogApp.U5_W2_L2.author;
 
+import it.blogApp.U5_W2_L2.mail.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import it.blogApp.U5_W2_L2.response.CreateResponse;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class AuthorService {
     private final AuthorRepository authorRepository;
+    private final EmailService emailService;
 
     public AuthorResponse authorResponseFromEntity(Author author) {
         AuthorResponse authorResponse = new AuthorResponse();
@@ -41,12 +47,20 @@ public class AuthorService {
         return author;
     }
 
-    public CreateResponse save(AuthorRequest request) {
+    public CreateResponse save(@Valid AuthorRequest request) {
         Author author = authorFromRequest(request);
         authorRepository.save(author);
 
         CreateResponse response = new CreateResponse();
         BeanUtils.copyProperties(author, response);
+
+        try {
+            emailService.sendEmail(author.getEmail(), "Benvenuto", "Benvenuto " + " "
+                    + author.getEmail());
+        } catch (MessagingException e) {
+            System.out.println("Errore invio email");
+        }
+
         return response;
     }
 

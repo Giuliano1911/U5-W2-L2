@@ -1,8 +1,11 @@
 package it.blogApp.U5_W2_L2.blog;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.blogApp.U5_W2_L2.author.Author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -21,5 +24,7 @@ public class BlogDetailResponse {
 
     private int time;
 
-    private Long authorId;
+    @ToString.Exclude
+    @JsonIgnoreProperties("blogList")
+    private Author author;
 }

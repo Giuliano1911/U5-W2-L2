@@ -76,7 +76,7 @@ public class BlogService {
 
         BlogDetailResponse response = new BlogDetailResponse();
         BeanUtils.copyProperties(findById(id), response);
-        response.setAuthorId(blog.getAuthor().getId());
+        response.setAuthor(blog.getAuthor());
         return response;
     }
 }
